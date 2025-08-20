@@ -1,15 +1,15 @@
-ago. 20, 2025 1:29:28 PM liquibase.changelog
+ago. 20, 2025 3:30:35 PM liquibase.changelog
 INFORMAÇÕES: Reading resource: db/changelog/migrations/db.changelog-202508131446.sql
-ago. 20, 2025 1:29:29 PM liquibase.changelog
+ago. 20, 2025 3:30:35 PM liquibase.changelog
 INFORMAÇÕES: Reading from board.DATABASECHANGELOG
-ago. 20, 2025 1:29:29 PM liquibase.changelog
+ago. 20, 2025 3:30:35 PM liquibase.changelog
 INFORMAÇÕES: Reading resource: db/changelog/migrations/db.changelog-202508131517.sql
-ago. 20, 2025 1:29:29 PM liquibase.changelog
+ago. 20, 2025 3:30:35 PM liquibase.changelog
 INFORMAÇÕES: Reading resource: db/changelog/migrations/db.changelog-202508131525.sql
-ago. 20, 2025 1:29:29 PM liquibase.changelog
+ago. 20, 2025 3:30:35 PM liquibase.changelog
 INFORMAÇÕES: Reading resource: db/changelog/migrations/db.changelog-202508131528.sql
 Database is up to date, no changesets to execute
-ago. 20, 2025 1:29:29 PM liquibase.changelog
+ago. 20, 2025 3:30:36 PM liquibase.changelog
 INFORMAÇÕES: Reading from board.DATABASECHANGELOG
 
 UPDATE SUMMARY
@@ -19,19 +19,19 @@ Filtered out:                 0
 -------------------------------
 Total change sets:            4
 
-ago. 20, 2025 1:29:29 PM liquibase.util
+ago. 20, 2025 3:30:36 PM liquibase.util
 INFORMAÇÕES: UPDATE SUMMARY
-ago. 20, 2025 1:29:29 PM liquibase.util
+ago. 20, 2025 3:30:36 PM liquibase.util
 INFORMAÇÕES: Run:                          0
-ago. 20, 2025 1:29:29 PM liquibase.util
+ago. 20, 2025 3:30:36 PM liquibase.util
 INFORMAÇÕES: Previously run:               4
-ago. 20, 2025 1:29:29 PM liquibase.util
+ago. 20, 2025 3:30:36 PM liquibase.util
 INFORMAÇÕES: Filtered out:                 0
-ago. 20, 2025 1:29:29 PM liquibase.util
+ago. 20, 2025 3:30:36 PM liquibase.util
 INFORMAÇÕES: -------------------------------
-ago. 20, 2025 1:29:29 PM liquibase.util
+ago. 20, 2025 3:30:36 PM liquibase.util
 INFORMAÇÕES: Total change sets:            4
-ago. 20, 2025 1:29:29 PM liquibase.util
+ago. 20, 2025 3:30:36 PM liquibase.util
 INFORMAÇÕES: Update summary generated
-ago. 20, 2025 1:29:29 PM liquibase.command
+ago. 20, 2025 3:30:36 PM liquibase.command
 INFORMAÇÕES: Command execution complete
