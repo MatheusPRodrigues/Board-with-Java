@@ -1,18 +1,36 @@
 package org.example.persistence.dao;
 
+import com.mysql.cj.jdbc.StatementImpl;
 import lombok.AllArgsConstructor;
 import org.example.dto.CardDetailsDTO;
+import org.example.persistence.entity.CardEntity;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import static java.util.Objects.nonNull;
 import static org.example.persistence.converter.OffsetDateTimeConverter.toOffsetDateTime;
 
 @AllArgsConstructor
 public class CardDAO {
 
     private final Connection connection;
+
+    public CardEntity insert(final CardEntity entity) throws SQLException {
+        var sql = "INSERT INTO CARDS (title, description, board_column_id) VALUES (?, ?, ?)";
+        try (var statement = connection.prepareStatement(sql)) {
+            var i = 1;
+            statement.setString(i ++, entity.getTitle());
+            statement.setString(i ++, entity.getDescription());
+            statement.setLong(i ++, entity.getBoardColumn().getId());
+            statement.executeUpdate();
+            if (statement instanceof StatementImpl impl) {
+                entity.setId(impl.getLastInsertID());
+            }
+        }
+        return entity;
+    }
 
     public Optional<CardDetailsDTO> findById(final Long id) throws SQLException {
         var sql =
@@ -24,7 +42,7 @@ public class CardDAO {
                        b.block_reason,
                        c.board_column_id,
                        bc.name,
-                       COUNT(SELECT sub_b.id
+                       (SELECT COUNT(sub_b.id)
                                     FROM BLOCKS sub_b
                                     WHERE sub_b.card_id = c.id) blocks_amount
                 FROM CARDS c
@@ -44,7 +62,7 @@ public class CardDAO {
                         resultSet.getLong("c.id"),
                         resultSet.getString("c.title"),
                         resultSet.getString("c.description"),
-                        resultSet.getString("b.block_reason").isEmpty(),
+                        nonNull(resultSet.getString("b.block_reason")),
                         toOffsetDateTime(resultSet.getTimestamp("b.blocked_at")),
                         resultSet.getString("b.block_reason"),
                         resultSet.getInt("blocks_amount"),

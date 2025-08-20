@@ -3,24 +3,27 @@ package org.example.ui;
 import lombok.AllArgsConstructor;
 import org.example.persistence.entity.BoardColumnEntity;
 import org.example.persistence.entity.BoardEntity;
+import org.example.persistence.entity.CardEntity;
 import org.example.service.BoardColumnQueryService;
 import org.example.service.BoardQueryService;
 import org.example.service.CardQueryService;
+import org.example.service.CardService;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 import static org.example.persistence.config.ConnectionConfig.getConnection;
+import static org.example.persistence.entity.BoardColumnKindEnum.INITIAL;
 
 @AllArgsConstructor
 public class BoardMenu {
 
     private final BoardEntity entity;
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in).useDelimiter("\n");
 
     public void execute() {
         try {
-            System.out.printf("Bem vindo ao Board %s, selecione a operação desejada!", entity.getId());
+            System.out.printf("Bem vindo ao Board %s, selecione a operação desejada!\n", entity.getId());
             var option = -1;
 
             while (true) {
@@ -58,8 +61,16 @@ public class BoardMenu {
         }
     }
 
-    private void CreateCard() {
-
+    private void CreateCard() throws SQLException {
+        var card = new CardEntity();
+        System.out.println("Informe o título do card: ");
+        card.setTitle(scanner.next());
+        System.out.println("Informe a descrição do card: ");
+        card.setTitle(scanner.next());
+        card.setBoardColumn(entity.getInitialColumn());
+        try (var connection = getConnection()) {
+            new CardService(connection).insert(card);
+        }
     }
 
     private void moveCardToNextColumn() {

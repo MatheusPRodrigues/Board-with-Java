@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Objects.isNull;
 import static org.example.persistence.entity.BoardColumnKindEnum.findByName;
 
 @RequiredArgsConstructor
@@ -60,11 +61,11 @@ public class BoardColumnDAO {
         var sql =
                 """
                 SELECT bc.id,
-                    bc.name,
-                    bc.kind,
-                    COUNT(SELECT c.id
-                        FROM CARDS c
-                        WHERE c.board_column_id = bc.id) cards_amount
+                       bc.name,
+                       bc.kind,
+                       (SELECT COUNT(c.id)
+                            FROM CARDS c
+                            WHERE c.board_column_id = bc.id) cards_amount
                 FROM BOARDS_COLUMNS bc
                 WHERE board_id = ?
                 ORDER BY `order`
@@ -95,9 +96,9 @@ public class BoardColumnDAO {
                        c.title,
                        c.description
                 FROM BOARDS_COLUMNS bc
-                       INNER JOIN CARDS c
-                            ON c.board_column_id = bc.id
-                       WHERE bc.id = ?
+                LEFT JOIN CARDS c
+                       ON c.board_column_id = bc.id
+                WHERE bc.id = ?
                 """;
         try (var statement = connection.prepareStatement(sql)) {
             statement.setLong(1, boardId);
@@ -108,12 +109,16 @@ public class BoardColumnDAO {
                 entity.setName(resultSet.getString("bc.name"));
                 entity.setKind(findByName(resultSet.getString("bc.kind")));
                 do {
+                    if (isNull(resultSet.getString("c.title"))) {
+                        break;
+                    }
                     var card = new CardEntity();
                     card.setId(resultSet.getLong("c.id"));
                     card.setTitle(resultSet.getString("c.title"));
                     card.setDescription(resultSet.getString("c.description"));
                     entity.getCards().add(card);
                 } while (resultSet.next());
+                return Optional.of(entity);
             }
             return Optional.empty();
         }
